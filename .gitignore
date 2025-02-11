@@ -22,3 +22,9 @@ build/
 *~
 lib/
 
+# dev
+.vscode
+CameraTrajectory.txt
+datasets
+.DS_Store
+opencv-3.2.0.tar.gz
