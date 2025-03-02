@@ -1,0 +1,72 @@
+%YAML:1.0
+#--------------------------------------------------------------------------------------------
+# 通过`rostopic echo /camera/color/camera_info`获取并编写
+#--------------------------------------------------------------------------------------------
+
+# 相机内参 Camera Parameters
+Camera.fx: 605.8230590820312  # K[0]
+Camera.fy: 604.4893798828125  # K[4]
+Camera.cx: 323.6572570800781  # K[2]
+Camera.cy: 242.0369110107422  # K[5]
+
+# 畸变参数 (D)
+Camera.k1: 0.0  # D[0]
+Camera.k2: 0.0  # D[1]
+Camera.p1: 0.0  # D[2]
+Camera.p2: 0.0  # D[3]
+Camera.k3: 0.0  # D[4]
+
+# 图像分辨率
+Camera.width:640
+Camera.height:480
+
+# Camera frames per second 相机帧数
+Camera.fps:30.0
+
+# IR projector baseline times fx (aprox.)
+# bf = baseline×fx = 0.05×605.8230590820312 ≈ 30.29
+# baseline是d435两个摄像头的基线距离，为50mm
+Camera.bf:30.29
+
+# Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
+Camera.RGB:1
+
+# Close/Far threshold. Baseline times.
+ThDepth:40.0
+
+# Deptmap values factor，将深度像素值转化为实际距离，原来单位是mm，转化成m
+DepthMapFactor:1000.0
+
+#--------------------------------------------------------------------------------------------
+# ORB Parameters
+#--------------------------------------------------------------------------------------------
+
+# ORB Extractor: Number of features per image
+ORBextractor.nFeatures: 1000
+
+# ORB Extractor: Scale factor between levels in the scale pyramid 	
+ORBextractor.scaleFactor: 1.2
+
+# ORB Extractor: Number of levels in the scale pyramid	
+ORBextractor.nLevels: 8
+
+# ORB Extractor: Fast threshold
+# Image is divided in a grid. At each cell FAST are extracted imposing a minimum response.
+# Firstly we impose iniThFAST. If no corners are detected we impose a lower value minThFAST
+# You can lower these values if your images have low contrast			
+ORBextractor.iniThFAST: 20
+ORBextractor.minThFAST: 7
+
+#--------------------------------------------------------------------------------------------
+# Viewer Parameters
+#--------------------------------------------------------------------------------------------
+Viewer.KeyFrameSize: 0.05
+Viewer.KeyFrameLineWidth: 1
+Viewer.GraphLineWidth: 0.9
+Viewer.PointSize:2
+Viewer.CameraSize: 0.08
+Viewer.CameraLineWidth: 3
+Viewer.ViewpointX: 0
+Viewer.ViewpointY: -0.7
+Viewer.ViewpointZ: -1.8
+Viewer.ViewpointF: 500
