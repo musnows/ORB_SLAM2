@@ -1,0 +1,60 @@
+# this images is build from dockerfile.base
+FROM musnows/ubuntu:18.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Shanghai
+
+SHELL ["/bin/bash", "-c"]
+
+# opencv
+RUN apt-get install -y \
+    libc-ares-dev \
+    libswscale-dev \
+    libboost-all-dev \
+    libssl-dev build-essential \
+    libgtk2.0-dev libgtk-3-dev \
+    libavcodec-dev libavformat-dev \
+    libjpeg.dev libtiff5.dev \
+    libavresample-dev libgphoto2-dev \
+    libcanberra-gtk-module
+
+ARG TARGETARCH
+COPY install/libjasper /tmp/install/libjasper
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        echo "Installing libjasper for amd64"; \
+        chmod 777 /tmp/install/libjasper/install_libjasper_amd64.sh; \
+        /tmp/install/libjasper/install_libjasper_amd64.sh; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        echo "Installing libjasper for arm64"; \
+        chmod 777 /tmp/install/libjasper/install_libjasper_arm64.sh; \
+        /tmp/install/libjasper/install_libjasper_arm64.sh; \
+    else \
+        echo "Unsupported architecture for install libjasper: $TARGETARCH"; \
+        exit 1; \
+    fi
+
+# pangolin
+RUN apt-get install -y \
+    libgl1-mesa-dev \
+    libglew-dev \
+    libboost-dev \
+    libboost-thread-dev \
+    libboost-filesystem-dev \
+    libpython2.7-dev \
+    libglu1-mesa-dev freeglut3-dev
+
+COPY install/pangolin /tmp/install/pangolin
+RUN chmod 777 /tmp/install/pangolin/install_pangolin.sh && \
+    /tmp/install/pangolin/install_pangolin.sh
+
+# COPY install/opencv /tmp/install/opencv
+# RUN chmod 777 /tmp/install/opencv/install_opencv.sh && \ 
+#     /tmp/install/opencv/install_opencv.sh
+
+COPY install/eigen /tmp/install/eigen
+RUN chmod 777 /tmp/install/eigen/install_eigen.sh && \
+    /tmp/install/eigen/install_eigen.sh
+
+COPY install/ros /tmp/install/ros
+RUN chmod 777 /tmp/install/ros/install_ros.sh && \
+    /tmp/install/ros/install_ros.sh
